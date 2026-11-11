@@ -315,8 +315,21 @@ public final class RemoteButtonSettingsActivity extends Activity {
     }
 
     private void openAccessibilitySettings() {
-        try { startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)); }
-        catch (RuntimeException ignored) {}
+        String[] actions = {
+                "android.settings.ACCESSIBILITY_TV_OEM_LINK",
+                Settings.ACTION_ACCESSIBILITY_SETTINGS
+        };
+        for (String action : actions) {
+            Intent intent = new Intent(action);
+            if (intent.resolveActivity(getPackageManager()) == null) continue;
+            try {
+                startActivity(intent);
+                return;
+            } catch (RuntimeException ignored) {
+                // Try the generic Android settings action if the TV OEM link is unavailable.
+            }
+        }
+        status.setText("Could not open Accessibility settings. Open TV Settings > Accessibility manually.");
     }
 
     private static final class Mapping {

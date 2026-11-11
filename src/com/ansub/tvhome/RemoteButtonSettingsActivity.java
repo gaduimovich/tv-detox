@@ -115,8 +115,10 @@ public final class RemoteButtonSettingsActivity extends Activity {
         enableService.setVisibility(serviceEnabled ? View.GONE : View.VISIBLE);
         if (prefs.getString(RemoteButtonService.LEARN_TARGET, null) != null) {
             status.setText("Waiting for a remote button… Press the physical shortcut now. Use Back to cancel.");
+        } else if (RemoteButtonService.supportsR646Defaults()) {
+            status.setText("Mappings are stored on this TV. R646 defaults are preloaded; learn keys to adapt them to another remote.");
         } else {
-            status.setText("Mappings are stored on this TV. The R646 defaults are preloaded; learn keys to adapt them to another remote.");
+            status.setText("Mappings are stored on this TV. Add a remote button or learn keys for this TV’s remote.");
         }
         List<Mapping> mappings = mappings();
         Collections.sort(mappings, Comparator.comparingInt(m -> m.keyCode));
@@ -306,11 +308,16 @@ public final class RemoteButtonSettingsActivity extends Activity {
     private int dp(int value) { return (int) (value * getResources().getDisplayMetrics().density + 0.5f); }
 
     private boolean isServiceEnabled() {
+        if (Settings.Secure.getInt(getContentResolver(),
+                Settings.Secure.ACCESSIBILITY_ENABLED, 0) != 1) return false;
         String services = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
         if (services == null) return false;
-        String component = new ComponentName(this, RemoteButtonService.class).flattenToShortString();
-        for (String enabled : services.split(":")) if (component.equalsIgnoreCase(enabled)) return true;
+        ComponentName component = new ComponentName(this, RemoteButtonService.class);
+        for (String enabled : services.split(":")) {
+            ComponentName parsed = ComponentName.unflattenFromString(enabled.trim());
+            if (component.equals(parsed)) return true;
+        }
         return false;
     }
 

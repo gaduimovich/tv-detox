@@ -3,3 +3,8 @@ key.jks
 *.apk
 .DS_Store
 .idea
+
+# Per-device diagnostics and the retired standalone button helper are local only.
+/audit/
+/airplay-debug/
+/remote-buttons/

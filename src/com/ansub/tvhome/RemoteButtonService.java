@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.KeyEvent;
@@ -29,12 +30,21 @@ public final class RemoteButtonService extends AccessibilityService {
 
     static void ensureR646Defaults(SharedPreferences prefs) {
         if (prefs.getBoolean("defaults_seeded", false)) return;
+        if (!supportsR646Defaults()) {
+            prefs.edit().putBoolean("defaults_seeded", true).apply();
+            return;
+        }
         SharedPreferences.Editor edit = prefs.edit();
         putDefault(edit, prefs, 4062, "com.netflix.ninja");
         putDefault(edit, prefs, 4065, "com.google.android.youtube.tv");
         putDefault(edit, prefs, 4020, "com.disney.disneyplus");
         putDefault(edit, prefs, 4099, "com.amazon.amazonvideo.livingroom");
         edit.putBoolean("defaults_seeded", true).apply();
+    }
+
+    static boolean supportsR646Defaults() {
+        return "TCL".equalsIgnoreCase(Build.MANUFACTURER)
+                && "G05_4K_US".equalsIgnoreCase(Build.PRODUCT);
     }
 
     private static void putDefault(SharedPreferences.Editor edit, SharedPreferences prefs,

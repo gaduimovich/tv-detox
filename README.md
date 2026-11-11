@@ -53,6 +53,8 @@ contents.
 
 ![TV Detox home screen](docs/screenshots/home-screen.png)
 
+![Remote button editor with app mappings and Learn key controls](docs/screenshots/remote-buttons.png)
+
 The remote-button editor and setup steps are shown in the [remote button guide](docs/remote-buttons.md).
 
 ## Watch it work

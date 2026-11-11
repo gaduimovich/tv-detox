@@ -39,6 +39,24 @@ Claude Code or Codex does the work. You just press OK on the remote.
 </tr>
 </table>
 
+**Remote shortcuts:** Open **Settings → Remote buttons** to choose which installed apps hardware
+shortcut keys launch. The R646 button profile is preloaded; other TVs can learn their own keys.
+[Setup and privacy details](docs/remote-buttons.md).
+
+## About this fork
+
+This is a personal fork of [Ansub/tv-detox](https://github.com/Ansub/tv-detox). Upstream keeps
+contributions focused on official apps and Android settings, and excludes ad blockers and unofficial
+apps. This fork keeps TV Detox's cleanup tools and adds configurable remote shortcut mappings inside
+the launcher. The mapping service runs locally, has no Internet permission, and cannot read screen
+contents.
+
+![TV Detox home screen](docs/screenshots/home-screen.png)
+
+![Remote button editor with app mappings and Learn key controls](docs/screenshots/remote-buttons.png)
+
+The remote-button editor and setup steps are shown in the [remote button guide](docs/remote-buttons.md).
+
 ## Watch it work
 
 <a href="https://www.youtube.com/watch?v=fP2SGGVsaB0"><img src="https://img.youtube.com/vi/fP2SGGVsaB0/maxresdefault.jpg" alt="Watch: Claude Made My Old Android TV Feel Brand New" width="100%"></a>

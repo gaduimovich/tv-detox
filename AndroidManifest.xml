@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ansub.tvhome" android:versionCode="20" android:versionName="1.5.7">
+    package="com.ansub.tvhome" android:versionCode="25" android:versionName="1.6.4-dev">
     <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="34" />
     <!-- Only for the network tile: Wi-Fi, Ethernet or offline, and the Wi-Fi signal. -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -21,6 +21,9 @@
         <intent><action android:name="com.google.android.intent.action.CONNECT_INPUT" /></intent>
         <intent><action android:name="android.settings.SOUND_SETTINGS" /></intent>
         <intent><action android:name="android.settings.DISPLAY_SETTINGS" /></intent>
+        <intent><action android:name="android.settings.ACCESSIBILITY_SETTINGS" /></intent>
+        <!-- Android TV exposes its real accessibility panel through this OEM link action. -->
+        <intent><action android:name="android.settings.ACCESSIBILITY_TV_OEM_LINK" /></intent>
         <package android:name="com.tcl.settings" />
         <!-- Some TCL Google TVs ship TCL's Picture and Sound panels inside TvSettings. -->
         <package android:name="com.android.tv.settings" />
@@ -52,6 +55,10 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RemoteButtonSettingsActivity"
+            android:exported="false"
+            android:label="Remote buttons"
+            android:screenOrientation="landscape" />
         <!-- Opt-in: makes Home open this home screen where the TV's own has to stay on (Google TV). -->
         <service android:name=".HomeButton" android:label="Home button" android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
@@ -59,6 +66,17 @@
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
             <meta-data android:name="android.accessibilityservice" android:resource="@xml/home_button" />
+        </service>
+        <service android:name=".RemoteButtonService"
+            android:label="TV Detox remote buttons"
+            android:description="@string/remote_button_service_description"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data android:name="android.accessibilityservice"
+                android:resource="@xml/remote_button_keys" />
         </service>
     </application>
 </manifest>

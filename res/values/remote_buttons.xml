@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_button_service_description">Listens only for remote keys you assign and opens the selected apps. It cannot read screen contents.</string>
+</resources>

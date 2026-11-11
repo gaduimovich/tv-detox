@@ -126,7 +126,7 @@ public class MainActivity extends Activity {
     private static final int ICON_TOP = 76, ICON_BUTTON = 72, ICON_SIZE = 40, ICON_GAP = 12; // level with the date
 
     // The Settings tile opens a small menu: the home screen's own settings, then the TV's.
-    private static final String[] SETTINGS_ITEMS = {"Wallpaper", "Brightness", "TV settings"};
+    private static final String[] SETTINGS_ITEMS = {"Wallpaper", "Brightness", "TV settings", "Remote buttons"};
     // Android TV 11 and later (Google TV too) has no Display page, but its "Display & Sound" page holds Picture.
     private static final String[] TV_DISPLAY_SOUND = {"com.android.tv.settings",
             "com.android.tv.settings.device.displaysound.DisplaySoundActivity"};
@@ -783,6 +783,8 @@ public class MainActivity extends Activity {
             dropdown(tile(SETTINGS), items, which -> {
                 if ("Wallpaper".equals(items[which])) showWallpapers();
                 else if ("Brightness".equals(items[which])) openBrightness();
+                else if ("Remote buttons".equals(items[which]))
+                    startActivity(new Intent(this, RemoteButtonSettingsActivity.class));
                 else openTvSettings();
             });
             return;
